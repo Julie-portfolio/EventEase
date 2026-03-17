@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EventEase</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #1a1a2e, #16213e) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .navbar-brand {
+            color: #e94560 !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+        .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+            margin: 0 5px;
+            border-radius: 5px;
+            padding: 8px 15px !important;
+            transition: all 0.3s;
+        }
+        .nav-link:hover {
+            background-color: #e94560 !important;
+            color: #ffffff !important;
+        }
+        .footer {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #ffffff;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        .footer a {
+            color: #e94560;
+        }
+        .btn-primary {
+            background-color: #e94560;
+            border-color: #e94560;
+        }
+        .btn-primary:hover {
+            background-color: #c73652;
+            border-color: #c73652;
+        }
+        .table thead {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #1a1a2e;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e94560;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    🎪 EventEase
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Venues" asp-action="Index">Venues</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Events" asp-action="Index">Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Bookings" asp-action="Index">Bookings</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2026 - EventEase - Venue Booking System</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

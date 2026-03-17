@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div style="background: linear-gradient(135deg, #1a1a2e, #16213e, #e94560); min-height: 60vh; display: flex; align-items: center; justify-content: center; border-radius: 15px; margin-bottom: 40px;">
+    <div class="text-center text-white p-5">
+        <h1 style="font-size: 3.5rem; font-weight: 800; color: white; border: none;">🎪 Welcome to EventEase</h1>
+        <p style="font-size: 1.3rem; opacity: 0.9; margin-bottom: 30px;">Your all-in-one Venue Booking Management System</p>
+        <a asp-controller="Bookings" asp-action="Create" class="btn btn-lg me-3" style="background-color: #e94560; color: white; padding: 12px 30px; border-radius: 25px; font-weight: 600;">
+            + New Booking
+        </a>
+        <a asp-controller="Venues" asp-action="Index" class="btn btn-lg" style="background-color: transparent; color: white; border: 2px solid white; padding: 12px 30px; border-radius: 25px; font-weight: 600;">
+            View Venues
+        </a>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 text-center p-4" style="border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="font-size: 3rem; margin-bottom: 15px;">🏛️</div>
+            <h3 style="color: #1a1a2e; font-weight: 700;">Venues</h3>
+            <p style="color: #666;">Browse and manage all available venues. Add new venues, update details and manage capacity.</p>
+            <a asp-controller="Venues" asp-action="Index" class="btn mt-auto" style="background-color: #e94560; color: white; border-radius: 20px;">Manage Venues</a>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 text-center p-4" style="border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="font-size: 3rem; margin-bottom: 15px;">🎭</div>
+            <h3 style="color: #1a1a2e; font-weight: 700;">Events</h3>
+            <p style="color: #666;">View and manage upcoming events. Create new events and assign them to venues.</p>
+            <a asp-controller="Events" asp-action="Index" class="btn mt-auto" style="background-color: #e94560; color: white; border-radius: 20px;">Manage Events</a>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 text-center p-4" style="border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="font-size: 3rem; margin-bottom: 15px;">📋</div>
+            <h3 style="color: #1a1a2e; font-weight: 700;">Bookings</h3>
+            <p style="color: #666;">Manage all bookings in one place. Create, view and cancel bookings for any event.</p>
+            <a asp-controller="Bookings" asp-action="Index" class="btn mt-auto" style="background-color: #e94560; color: white; border-radius: 20px;">Manage Bookings</a>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 15px; padding: 40px; margin-bottom: 40px;">
+    <div class="col-md-4 text-center text-white mb-3">
+        <div style="font-size: 2.5rem; font-weight: 800; color: #e94560;">🏛️</div>
+        <h4 style="color: white;">Multiple Venues</h4>
+        <p style="opacity: 0.8;">Manage venues across different locations</p>
+    </div>
+    <div class="col-md-4 text-center text-white mb-3">
+        <div style="font-size: 2.5rem; font-weight: 800; color: #e94560;">📅</div>
+        <h4 style="color: white;">Easy Scheduling</h4>
+        <p style="opacity: 0.8;">Schedule events with no conflicts</p>
+    </div>
+    <div class="col-md-4 text-center text-white mb-3">
+        <div style="font-size: 2.5rem; font-weight: 800; color: #e94560;">☁️</div>
+        <h4 style="color: white;">Cloud Powered</h4>
+        <p style="opacity: 0.8;">Secure data stored in Microsoft Azure</p>
+    </div>
+</div>
