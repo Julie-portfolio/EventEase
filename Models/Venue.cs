@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace EventEase.Models
 {
@@ -8,15 +8,15 @@ namespace EventEase.Models
 
         [Required]
         [Display(Name = "Venue Name")]
-        public string VenueName { get; set; }
+        public string VenueName { get; set; } = string.Empty;
 
         [Required]
-        public string Location { get; set; }
+        public string Location { get; set; } = string.Empty;
 
         [Required]
         public int Capacity { get; set; }
 
-        [Display(Name = "Image URL")]
+        [Display(Name = "Image")]
         public string? ImageUrl { get; set; }
 
         public ICollection<Event>? Events { get; set; }

@@ -1,28 +1,40 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EventEase.Data;
+using EventEase.Models;
+using EventEase.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EventEase.Data;
-using EventEase.Models;
 
 namespace EventEase.Controllers
 {
     public class BookingsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly BlobStorageService _blobStorageService;
 
-        public BookingsController(AppDbContext context)
+        public BookingsController(AppDbContext context, BlobStorageService blobStorageService)
         {
             _context = context;
+            _blobStorageService = blobStorageService;
         }
 
         // GET: Bookings
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var bookings = await _context.Bookings
+            var bookings = _context.Bookings
                 .Include(b => b.Event)
                 .Include(b => b.Venue)
-                .ToListAsync();
-            return View(bookings);
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                bookings = bookings.Where(b =>
+                    b.BookingId.ToString().Contains(searchString) ||
+                    b.Event.EventName.Contains(searchString));
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+            return View(await bookings.ToListAsync());
         }
 
         // GET: Bookings/Details/5
@@ -52,6 +64,20 @@ namespace EventEase.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Check for double booking
+                bool doubleBooking = await _context.Bookings
+                    .AnyAsync(b => b.VenueId == booking.VenueId &&
+                                   b.BookingDate.Date == booking.BookingDate.Date &&
+                                   b.BookingId != booking.BookingId);
+
+                if (doubleBooking)
+                {
+                    TempData["ErrorMessage"] = "This venue is already booked on the selected date!";
+                    ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventName", booking.EventId);
+                    ViewData["VenueId"] = new SelectList(_context.Venues, "VenueId", "VenueName", booking.VenueId);
+                    return View(booking);
+                }
+
                 _context.Add(booking);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -80,6 +106,20 @@ namespace EventEase.Controllers
             if (id != booking.BookingId) return NotFound();
             if (ModelState.IsValid)
             {
+                // Check for double booking
+                bool doubleBooking = await _context.Bookings
+                    .AnyAsync(b => b.VenueId == booking.VenueId &&
+                                   b.BookingDate.Date == booking.BookingDate.Date &&
+                                   b.BookingId != booking.BookingId);
+
+                if (doubleBooking)
+                {
+                    TempData["ErrorMessage"] = "This venue is already booked on the selected date!";
+                    ViewData["EventId"] = new SelectList(_context.Events, "EventId", "EventName", booking.EventId);
+                    ViewData["VenueId"] = new SelectList(_context.Venues, "VenueId", "VenueName", booking.VenueId);
+                    return View(booking);
+                }
+
                 try
                 {
                     _context.Update(booking);
@@ -108,14 +148,26 @@ namespace EventEase.Controllers
             if (booking == null) return NotFound();
             return View(booking);
         }
-
-        // POST: Bookings/Delete/5
+        // POST: Venues/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var booking = await _context.Bookings.FindAsync(id);
-            if (booking != null) _context.Bookings.Remove(booking);
+            // Check if venue has bookings
+            bool hasBookings = await _context.Bookings.AnyAsync(b => b.VenueId == id);
+            if (hasBookings)
+            {
+                TempData["ErrorMessage"] = "Cannot delete this venue because it has existing bookings!";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var venue = await _context.Venues.FindAsync(id);
+            if (venue != null)
+            {
+                if (!string.IsNullOrEmpty(venue.ImageUrl))
+                    await _blobStorageService.DeleteImageAsync(venue.ImageUrl);
+                _context.Venues.Remove(venue);
+            }
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

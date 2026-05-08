@@ -1,0 +1,62 @@
+# Ignore Visual Studio temporary files, build results, and user-specific files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Bb]in/
+[Oo]bj/
+out/
+artifacts/
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+*.sln.iml
+
+# NuGet
+packages/
+*.nupkg
+.nuget/
+
+# Publish
+Properties/PublishProfiles/
+
+# Service Dependencies
+Properties/ServiceDependencies/
+
+# ASP.NET
+appsettings.Development.json
+
+# Logs, DBs
+*.log
+*.sqlite
+*.db
+
+# Node
+node_modules/
+
+# Others
+*.vsix
+*.vsixmanifest
+
+# Ignore project user files
+*.csproj.user
+
+# Ignore generated files
+wwwroot/lib/
+
+# Ignore binary and object directories at root if accidentally added
+bin/
+obj/
+
+# Ignore Rider caches
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

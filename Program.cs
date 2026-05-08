@@ -8,6 +8,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
+builder.Services.AddSingleton<EventEase.Services.BlobStorageService>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

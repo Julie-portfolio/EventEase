@@ -4,38 +4,57 @@
 }
 
 <h1>Venues</h1>
-<p>
-    <a asp-action="Create" class="btn btn-primary">Add New Venue</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Venue Name</th>
-            <th>Location</th>
-            <th>Capacity</th>
-            <th>Image</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (Model == null || !Model.Any())
+{
+    <p class="text-muted">No venues found.</p>
+}
+else
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Add New Venue</a>
+    </p>
+    <table class="table">
+        <thead>
             <tr>
-                <td>@item.VenueName</td>
-                <td>@item.Location</td>
-                <td>@item.Capacity</td>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.ImageUrl))
-                    {
-                        <img src="@item.ImageUrl" width="100" />
-                    }
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.VenueId" class="btn btn-sm btn-warning">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.VenueId" class="btn btn-sm btn-info">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.VenueId" class="btn btn-sm btn-danger">Delete</a>
-                </td>
+                <th>Venue Name</th>
+                <th>Location</th>
+                <th>Capacity</th>
+                <th>Image</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.VenueName</td>
+                    <td>@item.Location</td>
+                    <td>@item.Capacity</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@item.ImageUrl" width="100" alt="@item.VenueName" style="object-fit:cover; border-radius:4px;" />
+                        }
+                        else
+                        {
+                            <span class="text-muted">No image</span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.VenueId" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.VenueId" class="btn btn-sm btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.VenueId" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

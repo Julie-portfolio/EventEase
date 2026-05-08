@@ -4,9 +4,32 @@
 }
 
 <h1>Bookings</h1>
-<p>
-    <a asp-action="Create" class="btn btn-primary">Add New Booking</a>
-</p>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <form asp-action="Index" method="get">
+            <div class="input-group">
+                <input type="text" name="searchString" class="form-control"
+                       placeholder="Search by Booking ID or Event Name"
+                       value="@ViewData["CurrentFilter"]" />
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a asp-action="Index" class="btn btn-secondary">Clear</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6 text-end">
+        <a asp-action="Create" class="btn btn-primary">Add New Booking</a>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -26,9 +49,12 @@
                 <td>@item.Venue?.VenueName</td>
                 <td>@item.BookingDate.ToString("dd MMM yyyy")</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.BookingId" class="btn btn-sm btn-warning">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.BookingId" class="btn btn-sm btn-info">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.BookingId" class="btn btn-sm btn-danger">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.BookingId"
+                       class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.BookingId"
+                       class="btn btn-sm btn-info">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.BookingId"
+                       class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
         }
