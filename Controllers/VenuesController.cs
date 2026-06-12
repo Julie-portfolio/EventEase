@@ -110,6 +110,14 @@ namespace EventEase.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // Prevent deletion if there are bookings associated with this venue
+            bool hasBookings = await _context.Bookings.AnyAsync(b => b.VenueId == id);
+            if (hasBookings)
+            {
+                TempData["ErrorMessage"] = "Cannot delete this venue because it has existing bookings!";
+                return RedirectToAction(nameof(Index));
+            }
+
             var venue = await _context.Venues.FindAsync(id);
             if (venue != null)
             {

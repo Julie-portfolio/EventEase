@@ -21,7 +21,7 @@ else
     <p>
         <a asp-action="Create" class="btn btn-primary">Add New Venue</a>
     </p>
-    <table class="table">
+    <table class="table reveal-on-scroll">
         <thead>
             <tr>
                 <th>Venue Name</th>
@@ -41,7 +41,7 @@ else
                     <td>
                         @if (!string.IsNullOrEmpty(item.ImageUrl))
                         {
-                            <img src="@item.ImageUrl" width="100" alt="@item.VenueName" style="object-fit:cover; border-radius:4px;" />
+                            <img src="@item.ImageUrl" class="thumb img-fade" alt="@item.VenueName" />
                         }
                         else
                         {

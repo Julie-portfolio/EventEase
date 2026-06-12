@@ -6,67 +6,6 @@
     <title>@ViewData["Title"] - EventEase</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .navbar {
-            background: linear-gradient(135deg, #1a1a2e, #16213e) !important;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-        .navbar-brand {
-            color: #e94560 !important;
-            font-weight: 700;
-            font-size: 1.5rem;
-            letter-spacing: 1px;
-        }
-        .nav-link {
-            color: #ffffff !important;
-            font-weight: 500;
-            margin: 0 5px;
-            border-radius: 5px;
-            padding: 8px 15px !important;
-            transition: all 0.3s;
-        }
-        .nav-link:hover {
-            background-color: #e94560 !important;
-            color: #ffffff !important;
-        }
-        .footer {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: #ffffff;
-            padding: 20px 0;
-            margin-top: 50px;
-        }
-        .footer a {
-            color: #e94560;
-        }
-        .btn-primary {
-            background-color: #e94560;
-            border-color: #e94560;
-        }
-        .btn-primary:hover {
-            background-color: #c73652;
-            border-color: #c73652;
-        }
-        .table thead {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: white;
-        }
-        .card {
-            border: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-radius: 10px;
-        }
-        h1 {
-            color: #1a1a2e;
-            font-weight: 700;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #e94560;
-            display: inline-block;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -98,7 +37,33 @@
         </nav>
     </header>
 
-    <div class="container mt-4">
+    <!-- Hero banner -->
+    <section class="hero-banner text-white py-5">
+        <div class="container d-md-flex align-items-center justify-content-between">
+            <div>
+                <h1 class="hero-title">Manage venues, events & bookings</h1>
+                <p class="lead hero-sub">Beautiful, simple venue booking. Upload images, prevent double bookings and filter by event type.</p>
+                <div class="mt-3">
+                    <a asp-controller="Events" asp-action="Create" class="btn btn-primary me-2">Create Event</a>
+                    <a asp-controller="Venues" asp-action="Create" class="btn btn-ghost">Add Venue</a>
+                </div>
+            </div>
+            <div class="hero-graphic d-none d-md-block">
+                <!-- decorative SVG or illustration placeholder -->
+                <svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0" y="0" width="240" height="160" rx="12" fill="url(#g)" />
+                    <defs>
+                        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#e94560"/>
+                            <stop offset="1" stop-color="#16213e"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mt-4 reveal-on-scroll">
         @if (TempData["ErrorMessage"] != null)
         {
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -118,11 +83,16 @@
         </main>
     </div>
 
-    <footer class="footer">
+    <footer class="footer reveal-on-scroll">
         <div class="container text-center">
             <p class="mb-0">&copy; 2026 - EventEase - Venue Booking System</p>
         </div>
     </footer>
+
+    <!-- Floating action button -->
+    <a href="/Events/Create" class="fab" aria-label="Create">
+        +
+    </a>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

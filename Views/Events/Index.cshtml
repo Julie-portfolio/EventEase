@@ -3,7 +3,33 @@
     ViewData["Title"] = "Events";
 }
 
-<h1>Events</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Events</h1>
+    <div>
+        <a asp-action="Create" class="btn btn-primary">Add New Event</a>
+    </div>
+</div>
+
+<div class="card small mb-3 reveal-on-scroll">
+    <div class="card-body">
+        <form method="get" class="row g-2">
+            <div class="col-md-4">
+                <input type="text" name="eventType" class="form-control"
+                       placeholder="Filter by EventType (e.g., Concert)" />
+            </div>
+            <div class="col-md-3">
+                <input type="date" name="startDate" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <input type="date" name="endDate" class="form-control" />
+            </div>
+            <div class="col-md-2 d-grid">
+                <button class="btn btn-ghost" type="submit">Apply</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -11,48 +37,36 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 }
-<p>
-    <a asp-action="Create" class="btn btn-primary">Add New Event</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Event Name</th>
-            <th>Event Date</th>
-            <th>Description</th>
-            <th>Venue</th>
-            <th>Image</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.EventName</td>
-                <td>@item.EventDate.ToString("dd MMM yyyy")</td>
-                <td>@item.Description</td>
-                <td>@item.Venue?.VenueName</td>
-                <td>
+
+<div class="grid-cards">
+    @foreach (var item in Model)
+    {
+        <div class="card p-3 reveal-on-scroll">
+            <div class="d-flex align-items-start gap-3">
+                <div>
                     @if (!string.IsNullOrEmpty(item.ImageUrl))
                     {
-                        <img src="@item.ImageUrl" width="80" height="60"
-                             style="object-fit:cover; border-radius:5px;" />
+                        <img src="@item.ImageUrl" class="thumb img-fade" alt="@item.EventName" />
                     }
                     else
                     {
-                        <span class="text-muted">No image</span>
+                        <div class="thumb bg-light d-flex align-items-center justify-content-center text-muted">No image
+                        </div>
                     }
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.EventId"
-                       class="btn btn-sm btn-warning">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.EventId"
-                       class="btn btn-sm btn-info">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.EventId"
-                       class="btn btn-sm btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </div>
+                <div class="flex-grow-1">
+                    <h5>@item.EventName <span class="badge-etype ms-2">@item.EventType</span></h5>
+                    <p class="mb-1 text-muted">
+                        @item.EventDate.ToString("dd MMM yyyy") - @item.Venue?.VenueName
+                    </p>
+                    <p class="mb-2">@item.Description</p>
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@item.EventId" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.EventId" class="btn btn-sm btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.EventId" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

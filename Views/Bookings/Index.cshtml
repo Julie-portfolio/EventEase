@@ -13,16 +13,14 @@
     </div>
 }
 
-<div class="row mb-3">
+<div class="row mb-3 reveal-on-scroll">
     <div class="col-md-6">
-        <form asp-action="Index" method="get">
-            <div class="input-group">
-                <input type="text" name="searchString" class="form-control"
-                       placeholder="Search by Booking ID or Event Name"
-                       value="@ViewData["CurrentFilter"]" />
-                <button type="submit" class="btn btn-primary">Search</button>
-                <a asp-action="Index" class="btn btn-secondary">Clear</a>
-            </div>
+        <form asp-action="Index" method="get" class="search-bar">
+            <input type="text" name="searchString" class="form-control"
+                   placeholder="Search by Booking ID or Event Name"
+                   value="@ViewData["CurrentFilter"]" />
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a asp-action="Index" class="btn btn-ghost">Clear</a>
         </form>
     </div>
     <div class="col-md-6 text-end">
@@ -30,7 +28,7 @@
     </div>
 </div>
 
-<table class="table">
+<table class="table reveal-on-scroll">
     <thead>
         <tr>
             <th>Booking ID</th>

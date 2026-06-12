@@ -64,10 +64,14 @@ namespace EventEase.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Check for double booking
+                // Use a date range for comparison to ensure EF can translate to SQL
+                var dateStart = booking.BookingDate.Date;
+                var dateEnd = dateStart.AddDays(1);
+
                 bool doubleBooking = await _context.Bookings
                     .AnyAsync(b => b.VenueId == booking.VenueId &&
-                                   b.BookingDate.Date == booking.BookingDate.Date &&
+                                   b.BookingDate >= dateStart &&
+                                   b.BookingDate < dateEnd &&
                                    b.BookingId != booking.BookingId);
 
                 if (doubleBooking)
@@ -106,10 +110,14 @@ namespace EventEase.Controllers
             if (id != booking.BookingId) return NotFound();
             if (ModelState.IsValid)
             {
-                // Check for double booking
+                // Use a date range for comparison to ensure EF can translate to SQL
+                var dateStart = booking.BookingDate.Date;
+                var dateEnd = dateStart.AddDays(1);
+
                 bool doubleBooking = await _context.Bookings
                     .AnyAsync(b => b.VenueId == booking.VenueId &&
-                                   b.BookingDate.Date == booking.BookingDate.Date &&
+                                   b.BookingDate >= dateStart &&
+                                   b.BookingDate < dateEnd &&
                                    b.BookingId != booking.BookingId);
 
                 if (doubleBooking)
@@ -148,27 +156,18 @@ namespace EventEase.Controllers
             if (booking == null) return NotFound();
             return View(booking);
         }
-        // POST: Venues/Delete/5
+
+        // POST: Bookings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            // Check if venue has bookings
-            bool hasBookings = await _context.Bookings.AnyAsync(b => b.VenueId == id);
-            if (hasBookings)
+            var booking = await _context.Bookings.FindAsync(id);
+            if (booking != null)
             {
-                TempData["ErrorMessage"] = "Cannot delete this venue because it has existing bookings!";
-                return RedirectToAction(nameof(Index));
+                _context.Bookings.Remove(booking);
+                await _context.SaveChangesAsync();
             }
-
-            var venue = await _context.Venues.FindAsync(id);
-            if (venue != null)
-            {
-                if (!string.IsNullOrEmpty(venue.ImageUrl))
-                    await _blobStorageService.DeleteImageAsync(venue.ImageUrl);
-                _context.Venues.Remove(venue);
-            }
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
     }
