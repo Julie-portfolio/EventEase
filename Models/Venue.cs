@@ -19,6 +19,9 @@ namespace EventEase.Models
         [Display(Name = "Image")]
         public string? ImageUrl { get; set; }
 
+        [Display(Name = "Available")]
+        public bool IsAvailable { get; set; } = true;
+
         public ICollection<Event>? Events { get; set; }
         public ICollection<Booking>? Bookings { get; set; }
     }
