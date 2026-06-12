@@ -31,6 +31,7 @@ Properties/ServiceDependencies/
 
 # ASP.NET
 appsettings.Development.json
+appsettings.json
 
 # Logs, DBs
 *.log
